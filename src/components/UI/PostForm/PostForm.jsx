@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from '../Button/Button';
-import Input from '../Input/Input';
+import { Input } from '../Input/Input';
 import { v4 } from 'uuid';
 
 const PostForm = ({create}) => {
@@ -17,7 +17,7 @@ const PostForm = ({create}) => {
     setPost({title: '', body:'',});
   }
     return (
-        <form>
+        <form style={{width: 600, margin: '0 auto'}}>
         <Input 
           type="text" 
           placeholder="Title"
