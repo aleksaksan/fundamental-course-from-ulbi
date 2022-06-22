@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "../../UI/Button/Button";
 import "./PostItem.scss";
 
 // export type post = {
@@ -17,7 +18,11 @@ export const PostItem = (props) => {
         </div>
       </div>
       <div className="post-btn">
-        <button>Delete</button>
+        <Button 
+          onClick={() => props.remove(props.post)}
+        >
+          Delete
+        </Button>
       </div>
     </div>
   );

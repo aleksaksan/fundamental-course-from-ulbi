@@ -2,7 +2,7 @@ import React from 'react';
 import { PostItem } from './PostItem/PostItem';
 import './PostList.scss';
 
-const PostList = ({posts, title}) => {
+const PostList = ({posts, title, remove}) => {
   
   return (
     <div className='post-container'>
@@ -10,7 +10,12 @@ const PostList = ({posts, title}) => {
           {title}
         </h1>
       {posts.map((postItem, index) =>
-        <PostItem number={index + 1} post={postItem} key={postItem.id}/>
+        <PostItem
+          remove={remove}
+          number={index + 1}
+          post={postItem}
+          key={postItem.id}
+        />
       )}
     </div>
   );
