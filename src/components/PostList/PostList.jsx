@@ -4,6 +4,13 @@ import './PostList.scss';
 
 const PostList = ({posts, title, remove}) => {
   
+if (!posts.length)
+  return (
+    <h1 style={{textAlign: 'center'}}>
+      Постов нет!
+    </h1>
+  );
+
   return (
     <div className='post-container'>
         <h1 style={{textAlign: "center"}}>
