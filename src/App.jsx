@@ -39,8 +39,7 @@ export const App = () => {
   const sortedPosts = getSortedPosts();
 
   return (
-    <>
-      <CounterWithUseReducer />
+    <div className="App">
       <PostForm create={createPost} />
       <hr />
       <div>
@@ -65,7 +64,7 @@ export const App = () => {
           Постов нет!
         </h1>
       }
-    </>
+    </div>
   );
 }
 
