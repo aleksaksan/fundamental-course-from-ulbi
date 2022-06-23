@@ -1,13 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import './App.css'
-import { CounterWithUseReducer } from './components/Counter/CounterWithUseReducer';
 import PostList from './components/PostList/PostList';
 import { Button } from './components/UI/Button/Button';
-import { Input } from './components/UI/Input/Input';
-import { ModalWindow } from './components/UI/ModalWindow/ModalWindow';
+import { ModalWindow } from './components/ModalWindow/ModalWindow';
 import PostFilter from './components/UI/PostFilter/PostFilter';
 import PostForm from './components/UI/PostForm/PostForm';
-import Select from './components/UI/Select/Select';
 
 export const App = () => {
   const [posts, setPosts] = useState([
@@ -32,7 +29,6 @@ export const App = () => {
   const [filter, setFilter] = useState({sort: '', query: ''});
 
   const sortedPosts = useMemo(() => {
-    console.log('getSortedPosts called')
     if (filter.sort)
       return [...posts].sort((a,b) => a[filter.sort].localeCompare(b[filter.sort]));
     return posts; 
