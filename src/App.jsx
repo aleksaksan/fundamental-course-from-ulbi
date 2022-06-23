@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import './App.css'
 import { CounterWithUseReducer } from './components/Counter/CounterWithUseReducer';
 import PostList from './components/PostList/PostList';
@@ -27,16 +27,19 @@ export const App = () => {
   const sortPosts = (sort) => {
     setSelectedSort(sort);
   }
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const getSortedPosts = () => {
+  const sortedPosts = useMemo(() => {
     console.log('getSortedPosts called')
     if (selectedSort)
       return [...posts].sort((a,b) => a[selectedSort].localeCompare(b[selectedSort]));
     return posts; 
-  }
+  }, [selectedSort, posts]);
 
-  const sortedPosts = getSortedPosts();
+ // поиск по названию поста
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const sortedAndSearchedPosts = useMemo( () => {
+    return sortedPosts.filter(item => item.title.toLowerCase().includes(searchQuery.toLowerCase()))
+  }, [searchQuery, sortedPosts]);
 
   return (
     <div className="App">
@@ -58,8 +61,8 @@ export const App = () => {
           ]}
           />
       </div>
-      {posts.length > 0
-        ? <PostList remove={removePost} posts={sortedPosts} title="Posts List:" />
+      {sortedAndSearchedPosts.length
+        ? <PostList remove={removePost} posts={sortedAndSearchedPosts} title="Posts List:" />
         : <h1 style={{textAlign: 'center'}}>
           Постов нет!
         </h1>
