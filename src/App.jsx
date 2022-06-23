@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from 'react';
-import './App.css'
+import './styles/App.css';
 import PostList from './components/PostList/PostList';
 import { Button } from './components/UI/Button/Button';
 import { ModalWindow } from './components/ModalWindow/ModalWindow';
 import PostFilter from './components/UI/PostFilter/PostFilter';
 import PostForm from './components/UI/PostForm/PostForm';
+import { usePosts } from './hooks/usePosts';
 
 export const App = () => {
   const [posts, setPosts] = useState([
@@ -14,6 +15,10 @@ export const App = () => {
   ]);
 
   const [isModalActive, setIsModalActive] = useState(false);
+  //  выбранный алгоритм сортировки и поисковая строка
+  const [filter, setFilter] = useState({sort: '', query: ''});
+  //используем свой хук
+  const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
 
   //  callback, для получения нового поста в  массиве
   const createPost = (newPost) => {
@@ -25,19 +30,6 @@ export const App = () => {
     setPosts(posts.filter(item => item.id !== post.id));
   }
 
-  //  выбранный алгоритм сортировки и поисковая строка
-  const [filter, setFilter] = useState({sort: '', query: ''});
-
-  const sortedPosts = useMemo(() => {
-    if (filter.sort)
-      return [...posts].sort((a,b) => a[filter.sort].localeCompare(b[filter.sort]));
-    return posts; 
-  }, [filter.sort, posts]);
-
- // поиск по названию поста
-  const sortedAndSearchedPosts = useMemo( () => {
-    return sortedPosts.filter(item => item.title.toLowerCase().includes(filter.query.toLowerCase()))
-  }, [filter.query, sortedPosts]);
 
   return (
     <div className="App">
