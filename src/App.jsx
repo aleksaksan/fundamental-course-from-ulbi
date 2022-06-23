@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css'
+import { CounterWithUseReducer } from './components/Counter/CounterWithUseReducer';
 import PostList from './components/PostList/PostList';
 import { Input } from './components/UI/Input/Input';
 import PostForm from './components/UI/PostForm/PostForm';
@@ -39,6 +40,7 @@ export const App = () => {
 
   return (
     <>
+      <CounterWithUseReducer />
       <PostForm create={createPost} />
       <hr />
       <div>
