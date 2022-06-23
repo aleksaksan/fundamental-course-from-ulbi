@@ -11,20 +11,10 @@ export const Counter = () => {
     setCounter(counter - 1);
   };
   return (
-    <>
-      <div className="counter">
-        <h1>{counter}</h1>
-        <button onClick={increment}>Increment</button>
-        <button onClick={decrement}>Decrement</button>
-      </div>
-      <div>
-        <h1>{value}</h1>
-        <input
-            type="text"
-            value={value}
-            onChange={event => setValue(event.target.value)} 
-        />
-      </div>
-    </>
+    <div className="counter">
+      <h1>{counter}</h1>
+      <button onClick={increment}>Increment</button>
+      <button onClick={decrement}>Decrement</button>
+    </div>
   );
 }
