@@ -2,7 +2,9 @@ import React, { useMemo, useState } from 'react';
 import './App.css'
 import { CounterWithUseReducer } from './components/Counter/CounterWithUseReducer';
 import PostList from './components/PostList/PostList';
+import { Button } from './components/UI/Button/Button';
 import { Input } from './components/UI/Input/Input';
+import { ModalWindow } from './components/UI/ModalWindow/ModalWindow';
 import PostFilter from './components/UI/PostFilter/PostFilter';
 import PostForm from './components/UI/PostForm/PostForm';
 import Select from './components/UI/Select/Select';
@@ -14,9 +16,12 @@ export const App = () => {
     {id: 3, title: 'C#', body: '1 C# - is a programming language!'}
   ]);
 
+  const [isModalActive, setIsModalActive] = useState(false);
+
   //  callback, для получения нового поста в  массиве
   const createPost = (newPost) => {
     setPosts([...posts, newPost]);
+    setIsModalActive(false);
   };
   //  получаем пост из дочернего элемента
   const removePost = (post) => {
@@ -40,8 +45,13 @@ export const App = () => {
 
   return (
     <div className="App">
-      <PostForm create={createPost} />
-      <hr />
+      <Button style={{marginTop: 30}} onClick={() => setIsModalActive(true)} >
+        create post
+      </Button>
+      <ModalWindow visible={isModalActive} setVisible={setIsModalActive} >
+        <PostForm create={createPost} />
+      </ModalWindow> 
+      <hr style={{margin: 20}}/>
       <PostFilter
         filter={filter}
         setFilter={setFilter}

@@ -17,7 +17,7 @@ const PostForm = ({create}) => {
     setPost({title: '', body:'',});
   }
     return (
-        <form style={{width: 600, margin: '0 auto'}}>
+        <form style={{margin: '0 auto'}}>
         <Input 
           type="text" 
           placeholder="Title"
