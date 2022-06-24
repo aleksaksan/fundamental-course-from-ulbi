@@ -8,22 +8,21 @@ import { ModalWindow } from './components/ModalWindow/ModalWindow';
 import { usePosts } from './hooks/usePosts';
 import PostService from './API/PostService/PostService';
 import Loader from './components/Loader/Loader';
+import { useFetching } from './hooks/useFetching';
 
 export const App = () => {
   const [posts, setPosts] = useState([]);
   const [isModalActive, setIsModalActive] = useState(false);
   //  выбранный алгоритм сортировки и поисковая строка
   const [filter, setFilter] = useState({sort: '', query: ''});
-  const [isLoading, setIsLoading] = useState(false);
-  //используем свой хук
-  const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
 
-  const fetchPosts = async () => {
-    setIsLoading(true);
+  //используем свои хуки
+  const [fetchPosts, isPostLoading, postError] = useFetching(async () => {
     const response = await PostService.getAll();
     setPosts(response);
-    setIsLoading(false);
-  };
+  });
+
+  const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
 
   useEffect(() => {
     fetchPosts();
@@ -39,7 +38,6 @@ export const App = () => {
     setPosts(posts.filter(item => item.id !== post.id));
   }
 
-
   return (
     <div className="App">
       <Button style={{marginTop: 30}} onClick={() => setIsModalActive(true)} >
@@ -53,7 +51,7 @@ export const App = () => {
         filter={filter}
         setFilter={setFilter}
       />
-      {isLoading ? 
+      {isPostLoading ? 
         <Loader /> :
         <PostList remove={removePost} posts={sortedAndSearchedPosts} title="Posts List:" />
       }
