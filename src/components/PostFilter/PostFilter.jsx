@@ -1,6 +1,6 @@
 import React from 'react';
-import { Input } from '../Input/Input';
-import Select from '../Select/Select';
+import { Input } from '../UI/Input/Input';
+import Select from '../UI/Select/Select';
 
 // type filter =
 // {sort: string, query: string}

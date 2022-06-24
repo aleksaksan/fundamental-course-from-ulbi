@@ -1,10 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import './styles/App.css';
 import PostList from './components/PostList/PostList';
+import PostForm from './components/PostForm/PostForm';
+import PostFilter from './components/PostFilter/PostFilter';
 import { Button } from './components/UI/Button/Button';
 import { ModalWindow } from './components/ModalWindow/ModalWindow';
-import PostFilter from './components/UI/PostFilter/PostFilter';
-import PostForm from './components/UI/PostForm/PostForm';
 import { usePosts } from './hooks/usePosts';
 
 export const App = () => {
@@ -48,4 +48,3 @@ export const App = () => {
     </div>
   );
 }
-
