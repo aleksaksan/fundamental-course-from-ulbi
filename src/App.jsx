@@ -51,6 +51,9 @@ export const App = () => {
         filter={filter}
         setFilter={setFilter}
       />
+      {postError && 
+        <h1>Erorr: ${postError}</h1>
+      }
       {isPostLoading ? 
         <Loader /> :
         <PostList remove={removePost} posts={sortedAndSearchedPosts} title="Posts List:" />
