@@ -23,7 +23,7 @@ export const App = () => {
   const [page, setPage] = useState(1);
 
   //используем свои хуки
-  const [fetchPosts, isPostLoading, postError] = useFetching(async () => {
+  const [fetchPosts, isPostLoading, postError] = useFetching(async (limit, page) => {
     const response = await PostService.getPagesResponse(limit, page);
     setPosts(response.data);
     const totalCount = getXTotalCount(response);
@@ -35,8 +35,13 @@ export const App = () => {
   const pagesArray = usePaginations(totalPages);
 
   useEffect(() => {
-    fetchPosts();
-  }, [page]);
+    fetchPosts(limit, page);
+  }, []);
+
+  const onClickChangePage = (page) => {
+    setPage(page);
+    fetchPosts(limit, page);
+  };
   
   //  callback, для получения нового поста в  массиве
   const createPost = (newPost) => {
@@ -71,7 +76,7 @@ export const App = () => {
       <div className='buttons-page-container'>
         {pagesArray.map(p =>
           <button
-            onClick={()=>setPage(p)} 
+            onClick={() => onClickChangePage(p)} 
             key={p}
             className={page === p ? `myBtn active` : `myBtn`}
           >
