@@ -1,15 +1,6 @@
 import { useMemo } from "react";
 import { getPageCount, getPagesArr } from "../Utils/pages";
 
-export const usePaginations = (totalCount, limit) => {
-  const pagesArray = useMemo(() => {
-    const pagesCount = getPageCount(totalCount, limit);
-    const pagesArr = getPagesArr(totalCount);
-    return [pagesCount, pagesArr];
-  },[totalCount, limit]);
-  return pagesArray;
-}
-
 // first version
 // export const usePagesArr = (totalCount) => {
 //   const pagesArr = useMemo(() => {
@@ -21,3 +12,11 @@ export const usePaginations = (totalCount, limit) => {
 //   }, [totalCount])
 //   return pagesArr;
 // };
+
+export const usePaginations = (totalPages) => {
+  const pagesArray = useMemo(() => {
+    return getPagesArr(totalPages);
+  },[totalPages]);
+  return pagesArray;
+}
+
