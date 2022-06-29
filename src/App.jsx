@@ -12,6 +12,7 @@ import Loader from './components/Loader/Loader';
 import { useFetching } from './hooks/useFetching';
 import { getPageCount, getXTotalCount } from './Utils/pages';
 import { usePaginations } from './hooks/usePaginations';
+import PaginationsContainer from './components/PaginationsContainer/PaginationsContainer';
 
 export const App = () => {
   const [posts, setPosts] = useState([]);
@@ -32,8 +33,6 @@ export const App = () => {
 
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
   
-  const pagesArray = usePaginations(totalPages);
-
   useEffect(() => {
     fetchPosts(limit, page);
   }, []);
@@ -73,17 +72,11 @@ export const App = () => {
         <Loader /> :
         <PostList remove={removePost} posts={sortedAndSearchedPosts} title="Posts List:" />
       }
-      <div className='buttons-page-container'>
-        {pagesArray.map(p =>
-          <button
-            onClick={() => onClickChangePage(p)} 
-            key={p}
-            className={page === p ? `myBtn active` : `myBtn`}
-          >
-            {p}
-          </button>
-        )}
-      </div>
+      <PaginationsContainer
+        totalPages={totalPages}
+        page={page}
+        changePage={onClickChangePage}
+      />
     </div>
   );
 }
