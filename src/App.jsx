@@ -1,5 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './styles/App.css';
+import './styles/ButtonPage.scss';
 import PostList from './components/PostList/PostList';
 import PostForm from './components/PostForm/PostForm';
 import PostFilter from './components/PostFilter/PostFilter';
@@ -9,7 +10,7 @@ import { usePosts } from './hooks/usePosts';
 import PostService from './API/PostService/PostService';
 import Loader from './components/Loader/Loader';
 import { useFetching } from './hooks/useFetching';
-import { getPageCount, getPagesArr, getXTotalCount } from './Utils/pages';
+import { getPageCount, getXTotalCount } from './Utils/pages';
 import { usePaginations } from './hooks/usePaginations';
 
 export const App = () => {
@@ -35,7 +36,7 @@ export const App = () => {
 
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [page]);
   
   //  callback, для получения нового поста в  массиве
   const createPost = (newPost) => {
@@ -67,9 +68,17 @@ export const App = () => {
         <Loader /> :
         <PostList remove={removePost} posts={sortedAndSearchedPosts} title="Posts List:" />
       }
-      {pagesArray.map(p =>
-        <Button key={p}>{p}</Button>
-      )}
+      <div className='buttons-page-container'>
+        {pagesArray.map(p =>
+          <button
+            onClick={()=>setPage(p)} 
+            key={p}
+            className={page === p ? `myBtn active` : `myBtn`}
+          >
+            {p}
+          </button>
+        )}
+      </div>
     </div>
   );
 }

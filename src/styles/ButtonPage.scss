@@ -6,7 +6,16 @@
     border: solid 1px teal;
     cursor: pointer;
 
-    .active {
+    &.active {
         border: solid 2px orange;
     }
+}
+
+.myBtn + .myBtn {
+    margin-left: 5px;
+}
+
+.buttons-page-container {
+    display: flex;
+    justify-content: center;
 }
