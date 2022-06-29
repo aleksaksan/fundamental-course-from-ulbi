@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './styles/App.css';
+import './styles/ButtonPage.scss';
 import PostList from './components/PostList/PostList';
 import PostForm from './components/PostForm/PostForm';
 import PostFilter from './components/PostFilter/PostFilter';
@@ -9,24 +10,38 @@ import { usePosts } from './hooks/usePosts';
 import PostService from './API/PostService/PostService';
 import Loader from './components/Loader/Loader';
 import { useFetching } from './hooks/useFetching';
+import { getPageCount, getXTotalCount } from './Utils/pages';
+import { usePaginations } from './hooks/usePaginations';
 
 export const App = () => {
   const [posts, setPosts] = useState([]);
   const [isModalActive, setIsModalActive] = useState(false);
   //  выбранный алгоритм сортировки и поисковая строка
   const [filter, setFilter] = useState({sort: '', query: ''});
+  const [totalPages, setTotalPages] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(1);
 
   //используем свои хуки
-  const [fetchPosts, isPostLoading, postError] = useFetching(async () => {
-    const response = await PostService.getAll();
-    setPosts(response);
+  const [fetchPosts, isPostLoading, postError] = useFetching(async (limit, page) => {
+    const response = await PostService.getPagesResponse(limit, page);
+    setPosts(response.data);
+    const totalCount = getXTotalCount(response);
+    setTotalPages(getPageCount(totalCount, limit));
   });
 
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
+  
+  const pagesArray = usePaginations(totalPages);
 
   useEffect(() => {
-    fetchPosts();
+    fetchPosts(limit, page);
   }, []);
+
+  const onClickChangePage = (page) => {
+    setPage(page);
+    fetchPosts(limit, page);
+  };
   
   //  callback, для получения нового поста в  массиве
   const createPost = (newPost) => {
@@ -58,6 +73,17 @@ export const App = () => {
         <Loader /> :
         <PostList remove={removePost} posts={sortedAndSearchedPosts} title="Posts List:" />
       }
+      <div className='buttons-page-container'>
+        {pagesArray.map(p =>
+          <button
+            onClick={() => onClickChangePage(p)} 
+            key={p}
+            className={page === p ? `myBtn active` : `myBtn`}
+          >
+            {p}
+          </button>
+        )}
+      </div>
     </div>
   );
 }
