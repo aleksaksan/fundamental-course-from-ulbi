@@ -9,20 +9,28 @@ import { usePosts } from './hooks/usePosts';
 import PostService from './API/PostService/PostService';
 import Loader from './components/Loader/Loader';
 import { useFetching } from './hooks/useFetching';
+import { getPageCount, getPagesArr } from './Utils/pages';
 
 export const App = () => {
   const [posts, setPosts] = useState([]);
   const [isModalActive, setIsModalActive] = useState(false);
   //  выбранный алгоритм сортировки и поисковая строка
   const [filter, setFilter] = useState({sort: '', query: ''});
+  const [totalPages, setTotalPages] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(1);
 
   //используем свои хуки
   const [fetchPosts, isPostLoading, postError] = useFetching(async () => {
-    const response = await PostService.getAll();
-    setPosts(response);
+    const response = await PostService.getPagesResponse(limit, page);
+    setPosts(response.data);
+    const totalCount = response.headers['x-total-count'];
+    setTotalPages(getPageCount(totalCount, limit));
   });
 
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
+  
+  let pagesArray = getPagesArr(totalPages);
 
   useEffect(() => {
     fetchPosts();
@@ -58,6 +66,9 @@ export const App = () => {
         <Loader /> :
         <PostList remove={removePost} posts={sortedAndSearchedPosts} title="Posts List:" />
       }
+      {pagesArray.map(p =>
+        <Button key={p}>{p}</Button>
+      )}
     </div>
   );
 }
