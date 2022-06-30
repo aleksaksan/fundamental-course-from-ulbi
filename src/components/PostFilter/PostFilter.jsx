@@ -1,12 +1,12 @@
 import React from 'react';
 import { Input } from '../UI/Input/Input';
-import Select from '../UI/Select/Select';
+import { Select } from '../UI/Select/Select';
 
 // type filter =
 // {sort: string, query: string}
 
 // пропсы добавлены для того чтобы иметь доступ в родительском компоненте
-const PostFilter = ({filter, setFilter}) => {
+export const PostFilter = ({filter, setFilter}) => {
   return (
     <div>
         <Input
@@ -26,5 +26,3 @@ const PostFilter = ({filter, setFilter}) => {
     </div>
   );
 };
-
-export default PostFilter;

@@ -3,7 +3,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { PostItem } from './PostItem/PostItem';
 import './PostList.scss';
 
-const PostList = ({posts, title, remove}) => {
+export const PostList = ({posts, title, remove}) => {
   
 if (!posts.length)
   return (
@@ -34,5 +34,3 @@ if (!posts.length)
     </div>
   );
 };
-
-export default PostList;

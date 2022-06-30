@@ -1,7 +1,7 @@
 import React from 'react';
 import { usePaginations } from '../../hooks/usePaginations';
 
-const PaginationsContainer = ({totalPages, page, changePage}) => {
+export const PaginationsContainer = ({totalPages, page, changePage}) => {
   const pagesArray = usePaginations(totalPages);
 
   return (
@@ -18,5 +18,3 @@ const PaginationsContainer = ({totalPages, page, changePage}) => {
       </div>
   );
 };
-
-export default PaginationsContainer;
