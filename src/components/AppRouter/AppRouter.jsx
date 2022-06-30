@@ -7,9 +7,9 @@ import { PostPage } from '../../pages/PostsPage/PostPage';
 export const AppRouter = () => {
   return (
     <Routes>
-        <Route path="/" element={<PostPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="*" element={<ErrorPage />} />
-      </Routes>
+      <Route path="/" element={<PostPage />} />
+      <Route path="/about" element={<AboutPage />} />
+      <Route path="*" element={<ErrorPage />} />
+    </Routes>
   );
 };

@@ -3,7 +3,7 @@ import { Button } from '../UI/Button/Button';
 import { Input } from '../UI/Input/Input';
 import { v4 } from 'uuid';
 
-const PostForm = ({create}) => {
+export const PostForm = ({create}) => {
     
   const [post, setPost] = useState({title: '', body:'',});
 
@@ -34,5 +34,3 @@ const PostForm = ({create}) => {
       </form>
     );
 };
-
-export default PostForm;

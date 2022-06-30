@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import PostService from '../../API/PostService/PostService';
-import Loader from '../../components/Loader/Loader';
+import { PostService } from '../../API/PostService/PostService';
+import { Loader } from '../../components/Loader/Loader';
 import { ModalWindow } from '../../components/ModalWindow/ModalWindow';
-import PaginationsContainer from '../../components/PaginationsContainer/PaginationsContainer';
-import PostFilter from '../../components/PostFilter/PostFilter';
-import PostForm from '../../components/PostForm/PostForm';
-import PostList from '../../components/PostList/PostList';
+import { PaginationsContainer } from '../../components/PaginationsContainer/PaginationsContainer';
+import { PostFilter } from '../../components/PostFilter/PostFilter';
+import { PostForm } from '../../components/PostForm/PostForm';
+import { PostList } from '../../components/PostList/PostList';
 import { Button } from '../../components/UI/Button/Button';
 import { useFetching } from '../../hooks/useFetching';
 import { usePosts } from '../../hooks/usePosts';
