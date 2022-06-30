@@ -1,5 +1,6 @@
 import React from 'react';
 import { usePaginations } from '../../hooks/usePaginations';
+import './ButtonPage.scss';
 
 export const PaginationsContainer = ({totalPages, page, changePage}) => {
   const pagesArray = usePaginations(totalPages);
