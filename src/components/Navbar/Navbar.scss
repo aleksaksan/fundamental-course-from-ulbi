@@ -1,0 +1,15 @@
+.main-panel {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px;
+  background-color: rgb(111, 186, 111);
+
+  a {
+    text-decoration: none;
+    color: rgb(3, 3, 193);
+  }
+
+  a + a {
+    margin-left: 30px;
+  }
+}
