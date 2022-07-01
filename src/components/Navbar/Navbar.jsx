@@ -5,8 +5,10 @@ import { Link } from 'react-router-dom';
 export const Navbar = () => {
   return (
     <nav className='main-panel'>
-      <Link to='/'>Home</Link>
-      <Link to='/about'>About</Link>
+      <div className='nav-container'>
+        <Link to='/posts'>Posts</Link>
+        <Link to='/about'>About</Link>
+      </div>
     </nav>
   );
 };

@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export class PostService {
+  //unused now
   static async getAll() {
     const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
       return response.data;
@@ -13,6 +14,16 @@ export class PostService {
         _page: page,
       }
     });
+      return response;
+  };
+
+  static async getPostById(id) {
+    const response = await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`);
+      return response;
+  };
+
+  static async getCommentByPostId(id) {
+    const response = await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}/comments`);
       return response;
   };
 };
