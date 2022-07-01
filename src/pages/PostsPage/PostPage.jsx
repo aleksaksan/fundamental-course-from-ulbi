@@ -65,10 +65,10 @@ export const PostPage = () => {
       {postError && 
         <h1>Erorr: ${postError}</h1>
       }
-      {isPostLoading ? 
-        <Loader /> :
-        <PostList remove={removePost} posts={sortedAndSearchedPosts} title="Posts List:" />
+      {isPostLoading && 
+        <Loader />
       }
+      <PostList remove={removePost} posts={sortedAndSearchedPosts} title="Posts List:" />
       <PaginationsContainer
         totalPages={totalPages}
         page={page}
