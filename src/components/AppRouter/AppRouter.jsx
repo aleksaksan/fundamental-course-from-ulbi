@@ -1,18 +1,22 @@
-import React from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
-import { AboutPage } from '../../pages/AboutPage/AboutPage';
-import { ErrorPage } from '../../pages/ErrorPage/ErrorPage';
-import { PostContentPage } from '../../pages/PostContentPage/PostContentPage';
-import { PostPage } from '../../pages/PostsPage/PostPage';
+import React, { useContext } from 'react';
+import { AuthContext } from '../../context/index';
+import { Loader } from '../Loader/Loader';
+import { PrivateRouters } from './PrivateRouters';
+import { PublicRouters } from './PublicRouters';
 
 export const AppRouter = () => {
+  const { isAuth, isLoading } = useContext(AuthContext);
+
+  if (isLoading) {
+    return <Loader/>;
+  }
+
   return (
-    <Routes>
-      <Route path="/" element={<Navigate to="/posts" />} />
-      <Route path="/posts" element={<PostPage />} />
-      <Route path="/posts/:id" element={<PostContentPage />} />
-      <Route path="/about" element={<AboutPage />} />
-      <Route path="*" element={<ErrorPage />} />
-    </Routes>
+    <>
+      {isAuth ? 
+        <PrivateRouters /> :
+        <PublicRouters />
+      }
+    </>
   );
 };

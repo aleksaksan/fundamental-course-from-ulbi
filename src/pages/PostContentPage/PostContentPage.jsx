@@ -28,7 +28,7 @@ export const PostContentPage = () => {
       {isLoading || isCommentLoading ?
         <Loader /> :
         <>
-          <h4>{post.id} {post.title}</h4>
+          <h4>{post.id}. {post.title}</h4>
           <div className='comments-container'>
             {comments.map((comm) => (
             <div key={comm.id} style={{marginTop: 20}}>
