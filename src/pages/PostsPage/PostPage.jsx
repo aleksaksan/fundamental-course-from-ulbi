@@ -7,10 +7,12 @@ import { PostFilter } from '../../components/PostFilter/PostFilter';
 import { PostForm } from '../../components/PostForm/PostForm';
 import { PostList } from '../../components/PostList/PostList';
 import { Button } from '../../components/UI/Button/Button';
+import { Select } from '../../components/UI/Select/Select';
 import { useFetching } from '../../hooks/useFetching';
 import { useObserver } from '../../hooks/useObserver';
 import { usePosts } from '../../hooks/usePosts';
 import { getPageCount, getXTotalCount } from '../../Utils/pages';
+import './PostPage.scss';
 
 export const PostPage = () => {
   const [posts, setPosts] = useState([]);
@@ -38,7 +40,7 @@ export const PostPage = () => {
 
   useEffect(() => {
     fetchPosts(limit, page);
-  }, [page]);
+  }, [page, limit]);
 
   const onClickChangePage = (page) => {
     setPage(page);
@@ -64,10 +66,24 @@ export const PostPage = () => {
         <PostForm create={createPost} />
       </ModalWindow> 
       <hr style={{margin: 20}}/>
-      <PostFilter
+      <div className='flex-space'>
+        <PostFilter
         filter={filter}
         setFilter={setFilter}
-      />
+        />
+        <Select
+          value={limit}
+          onChange={value => setLimit(value)}
+          defaultValue="amount of posts"
+          options={[
+            {value: 5, name: '5'},
+            {value: 10, name: '10'},
+            {value: 25, name: '25'},
+            {value: -1, name: 'All'},
+          ]}
+        />
+      </div>
+      
       {postError && 
         <h1>Erorr: ${postError}</h1>
       }
