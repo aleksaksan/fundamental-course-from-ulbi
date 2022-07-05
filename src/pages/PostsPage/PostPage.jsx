@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { PostService } from '../../API/PostService/PostService';
 import { Loader } from '../../components/Loader/Loader';
 import { ModalWindow } from '../../components/ModalWindow/ModalWindow';
@@ -19,20 +19,40 @@ export const PostPage = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
+  const lastElement = useRef();
+  const observer = useRef();
 
   //используем свои хуки
   const [fetchPosts, isPostLoading, postError] = useFetching(async (limit, page) => {
     const response = await PostService.getPagesResponse(limit, page);
-    setPosts(response.data);
+    setPosts([...posts, ...response.data]);
     const totalCount = getXTotalCount(response);
     setTotalPages(getPageCount(totalCount, limit));
   });
 
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
   
+  // использование Intersection_Observer для бесконечной прокрутки
+  // https://developer.mozilla.org/ru/docs/Web/API/Intersection_Observer_API
+  useEffect(() => {
+    // var options = {
+    //   root: document.querySelector('#scrollArea'),
+    //   rootMargin: '0px',
+    //   threshold: 1.0
+    // }
+    var callback = function(entries, observer) {
+        /* Content excerpted, show below */
+        console.log(entries);
+        if (entries[0].isIntersecting)
+          setPage(page + 1);
+    };
+    observer.current = new IntersectionObserver(callback);
+    observer.current.observe(lastElement.current)
+  },[]);
+
   useEffect(() => {
     fetchPosts(limit, page);
-  }, []);
+  }, [page]);
 
   const onClickChangePage = (page) => {
     setPage(page);
@@ -69,6 +89,9 @@ export const PostPage = () => {
         <Loader />
       }
       <PostList remove={removePost} posts={sortedAndSearchedPosts} title="Posts List:" />
+
+      <div ref={lastElement} style={{height: 20, backgroundColor: 'red'}}></div>
+
       <PaginationsContainer
         totalPages={totalPages}
         page={page}
