@@ -8,6 +8,7 @@ import { PostForm } from '../../components/PostForm/PostForm';
 import { PostList } from '../../components/PostList/PostList';
 import { Button } from '../../components/UI/Button/Button';
 import { useFetching } from '../../hooks/useFetching';
+import { useObserver } from '../../hooks/useObserver';
 import { usePosts } from '../../hooks/usePosts';
 import { getPageCount, getXTotalCount } from '../../Utils/pages';
 
@@ -20,7 +21,6 @@ export const PostPage = () => {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
   const lastElement = useRef();
-  const observer = useRef();
 
   //используем свои хуки
   const [fetchPosts, isPostLoading, postError] = useFetching(async (limit, page) => {
@@ -32,28 +32,9 @@ export const PostPage = () => {
 
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
   
-  // использование Intersection_Observer для бесконечной прокрутки
-  // https://developer.mozilla.org/ru/docs/Web/API/Intersection_Observer_API
-  useEffect(() => {
-    if (isPostLoading)
-      return;
-    if (observer.current)
-      observer.current.disconnect();
-    // var options = {
-    //   root: document.querySelector('#scrollArea'),
-    //   rootMargin: '0px',
-    //   threshold: 1.0
-    // }
-    var callback = function(entries, observer) {
-        /* Content excerpted, show below */
-        if (entries[0].isIntersecting && page < totalPages) {
-          setPage(page + 1);
+  const incrementPage = () => setPage(page + 1);
 
-        }
-    };
-    observer.current = new IntersectionObserver(callback);
-    observer.current.observe(lastElement.current)
-  },[isPostLoading]);
+  useObserver(lastElement, page < totalPages, isPostLoading, incrementPage);
 
   useEffect(() => {
     fetchPosts(limit, page);
