@@ -35,6 +35,10 @@ export const PostPage = () => {
   // использование Intersection_Observer для бесконечной прокрутки
   // https://developer.mozilla.org/ru/docs/Web/API/Intersection_Observer_API
   useEffect(() => {
+    if (isPostLoading)
+      return;
+    if (observer.current)
+      observer.current.disconnect();
     // var options = {
     //   root: document.querySelector('#scrollArea'),
     //   rootMargin: '0px',
@@ -42,13 +46,14 @@ export const PostPage = () => {
     // }
     var callback = function(entries, observer) {
         /* Content excerpted, show below */
-        console.log(entries);
-        if (entries[0].isIntersecting)
+        if (entries[0].isIntersecting && page < totalPages) {
           setPage(page + 1);
+
+        }
     };
     observer.current = new IntersectionObserver(callback);
     observer.current.observe(lastElement.current)
-  },[]);
+  },[isPostLoading]);
 
   useEffect(() => {
     fetchPosts(limit, page);
